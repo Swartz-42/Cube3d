@@ -11,7 +11,7 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "ft_printf/libft/include/libft.h"
+#include "libft/include/libft.h"
 #include <fcntl.h>
 #include <stdio.h>
 
