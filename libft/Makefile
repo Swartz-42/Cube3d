@@ -28,6 +28,7 @@ SRC			=		src/ft_atoi.c				\
 					src/ft_isalpha.c			\
 					src/ft_isascii.c			\
 					src/ft_isdigit.c			\
+					src/ft_isspace.c			\
 					src/ft_isprint.c			\
 					src/ft_itoa.c				\
 					src/ft_itoabase.c			\
@@ -80,7 +81,7 @@ SRC			=		src/ft_atoi.c				\
 					src/ft_init.c				\
 					src/ft_parse.c				\
 					src/ft_precision.c			\
-					src/ft_printf.c			\
+					src/ft_printf.c				\
 					src/ft_wildcard.c
 
 OBJS			=	${SRC:.c=.o}

@@ -14,27 +14,15 @@
 
 .PHONY: all clean fclean re
 
-NAME        =   libftprintf.a
+NAME        =   Cub3d.a
 
 FLAGS       =    -Wall -Wextra -Werror  
 
-HEADER      =   includes/ft_printf.h
+HEADER      =   Cub3d_code/includes/cub3d.h
 
-SRC         =   srcs/ft_display_addr.c		\
-				srcs/ft_display_char.c		\
-				srcs/ft_display_hex.c		\
-				srcs/ft_display_int.c		\
-				srcs/ft_display_percent.c	\
-				srcs/ft_display_str.c		\
-				srcs/ft_display_u_int.c		\
-				srcs/ft_display.c			\
-				srcs/ft_init.c				\
-				srcs/ft_parse.c				\
-				srcs/ft_precision.c			\
-				srcs/ft_printf.c			\
-				srcs/ft_wildcard.c			
+SRC         =   Cub3d_code/srcs/
 
-OBJ			=	${SRC:.c=.o}
+OBJ			=	#${SRC:.c=.o}
 
 LIBFT_PATH	=	libft
 LIBFT		=	libft.a
