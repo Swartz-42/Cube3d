@@ -110,28 +110,31 @@ int	verif_map(char *map)
 {
 	char *tmp;
 	int i;
+	int	x;
 	int len;
 	int len_tmp;
 
 	i = 0;
-	len = 0;
 	len_tmp = 0;
-	while (map[i] != '\0' && len == len_tmp)
+	while (map[i] != '\0')
 	{
-		len_tmp = len;
-		while (map[i] != '\n')
-			i++;
-		if (!(tmp = malloc(sizeof(char) * i + 1)))
-			return(-1);
-		while (i >= 0)
-		{
-			tmp[i] = map[i];
-			i--;
-		}
+		x = 0;
+		len = 0;
+		while (map[i++] != '\n')
+			len++;
+		if (!(tmp = malloc(sizeof(char) * len + 1)))
+			return (0);
+		while (x <= len)
+			tmp[x++] = map[len];
+		tmp[x] = '\0';
 		len = ft_strlen(tmp);
 		free(tmp);
 		tmp = 0;
+		len_tmp = (len_tmp == 0) ? len : len_tmp;
+		if (len != len_tmp)
+			return (0);
 	}
+	return (1);
 }
 
 int main(int ac, char **av)
@@ -149,8 +152,12 @@ int main(int ac, char **av)
 	while(i > 0)
 		i = ft_read_line(fd, line, reglage);
 	close(fd);
-	verif_map(reglage->map);
-	ft_printf("%s", reglage->map);
-	ft_printf("x: %d y: %d", reglage->resx, reglage->resy);
+	if(verif_map(reglage->map))
+	{
+		ft_printf("%s", reglage->map);
+		ft_printf("x: %d y: %d", reglage->resx, reglage->resy);
+	}
+	else
+		ft_printf("error taille de la map");
 	return (0);
 }
