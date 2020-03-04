@@ -1,16 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/02 12:26:29 by aducas            #+#    #+#             */
+/*   Updated: 2020/03/04 14:35:55 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
-//recuperais la map et les options
+//recuperais la map et les options avec les verifs
 
-int	gest_error_arg(int ac, char **av, int fd)
+int g_global = 0;
+
+int		gest_error_arg(int ac, char **av, int fd)
 {
-	if(ac != 2 || !av[1])
+	if (ac != 2 || !av[1])
 	{
 		ft_printf("ERROR\nErreur dans l'argument\n");
 		return (0);
 	}
 	fd = open(av[1], O_RDONLY);
-	if(fd < 0 || !ft_strnstr(av[1], ".cub", ft_strlen(av[1])))
+	if (fd < 0 || !ft_strnstr(av[1], ".cub", ft_strlen(av[1])))
 	{
 		ft_printf("ERROR\nErreur mauvais fichier\n");
 		return (0);
@@ -18,7 +32,7 @@ int	gest_error_arg(int ac, char **av, int fd)
 	return (fd);
 }
 
-void resolution(char *line, cub_tab *reglage)
+void	resolution(char *line, t_reglage *reglage)
 {
 	int i;
 
@@ -32,40 +46,57 @@ void resolution(char *line, cub_tab *reglage)
 	reglage->resy = ft_atoi(line + i);
 }
 
-void	ft_rgb(char *line, cub_tab *reglage)
+void	ft_rgb_roof(t_reglage *reglage, char *line)
 {
 	int	i;
 
 	i = 0;
-	if(line[i] == 'C')
-	{
-		while (!ft_isdigit(line[i]))
-			i++;
-		reglage->cielr = ft_atoi(line + i);
-		while (ft_isdigit(line[i]))
-			i++;
-		reglage->cielg = ft_atoi(line + ++i);
-		while (ft_isdigit(line[i]))
-			i++;
-		reglage->cielb = ft_atoi(line + ++i);
-	}
-	else
-	{
-		while (!ft_isdigit(line[i]))
-			i++;
-		reglage->solr = ft_atoi(line + i);
-		while (ft_isdigit(line[i]))
-			i++;
-		reglage->solg = ft_atoi(line + ++i);
-		while (ft_isdigit(line[i]))
-			i++;
-		reglage->solb = ft_atoi(line + ++i);
-	}
+	while (!ft_isdigit(line[i]))
+		i++;
+	reglage->cielr = ft_atoi(line + i);
+	while (ft_isdigit(line[i]))
+		i++;
+	reglage->cielg = ft_atoi(line + ++i);
+	while (ft_isdigit(line[i]))
+		i++;
+	reglage->cielb = ft_atoi(line + ++i);
 }
 
-void ft_parce(char *line, cub_tab *reglage)
+void	ft_rgb_floor(t_reglage *reglage, char *line)
 {
-	if(line[0] == 'R')
+	int	i;
+
+	i = 0;
+	while (!ft_isdigit(line[i]))
+		i++;
+	reglage->solr = ft_atoi(line + i);
+	while (ft_isdigit(line[i]))
+		i++;
+	reglage->solg = ft_atoi(line + ++i);
+	while (ft_isdigit(line[i]))
+		i++;
+	reglage->solb = ft_atoi(line + ++i);
+}
+
+void	ft_rgb(char *line, t_reglage *reglage)
+{
+	if (line[0] == 'C')
+		ft_rgb_roof(reglage, line);
+	else
+		ft_rgb_floor(reglage, line);
+}
+
+void	lazy_parsing(char *str, int *i)
+{
+	while (str[*i] && str[*i] != ' ')
+		*i = *i + 1;
+	while (str[*i] && str[*i] == ' ')
+		*i = *i + 1;
+}
+
+void	ft_parce(char *line, t_reglage *reglage)
+{
+	if (line[0] == 'R')
 		resolution(line, reglage);
 	else if (line[0] == 'N' && line[1] == 'O')
 		reglage->textno = ft_strdup(line + 3);
@@ -76,14 +107,14 @@ void ft_parce(char *line, cub_tab *reglage)
 	else if (line[0] == 'E' && line[1] == 'A')
 		reglage->textea = ft_strdup(line + 3);
 	else if (line[0] == 'S')
-		reglage->textsprite = ft_strdup(line + 2);
+		reglage->sprite = ft_strdup(line + 2);
 	else if (line[0] == 'F' || line[0] == 'C')
 		ft_rgb(line, reglage);
 	else
 		ft_printf("ERROR\nErreur dans un parametre\n");
 }
 
-int		ft_read_line(int fd, char *line, cub_tab *reglage)
+int		ft_read_line(int fd, char *line, t_reglage *reglage)
 {
 	int ret;
 
@@ -91,73 +122,70 @@ int		ft_read_line(int fd, char *line, cub_tab *reglage)
 	if (ft_comp(line[0], "RNSWEFC"))
 		ft_parce(line, reglage);
 	else if (line[0] == '1' && line[ft_strlen(line) - 1] == '1')
-	{
-		line[ft_strlen(line)] = '\n';
-		reglage->map = ft_strjoin(reglage->map, line);
-	}
-	else if (line[0] != '1' && line[ft_strlen(line) - 1] != '1' && (read(fd, line, 0) > 1))
+		reglage->map = ft_strjoin(reglage->map, ft_strjoin(line, "\n"));
+	else if ((line[0] != '1' || line[ft_strlen(line) - 1] != '1') &&
+			(read(fd, line, 0) >= 1))
 	{
 		ft_printf("ERROR\nerreur map\n");
 		return (-1);
 	}
-	free(line);
+	line = 0;
 	if (ret == 0)
 		return (0);
 	return (1);
 }
 
-int	verif_map(char *map)
+int		verif_map(char *map)
 {
-	char *tmp;
-	int i;
-	int	x;
-	int len;
-	int len_tmp;
+	int	i;
 
-	i = 0;
-	len_tmp = 0;
 	while (map[i] != '\0')
 	{
-		x = 0;
-		len = 0;
-		while (map[i++] != '\n')
-			len++;
-		if (!(tmp = malloc(sizeof(char) * len + 1)))
-			return (0);
-		while (x <= len)
-			tmp[x++] = map[len];
-		tmp[x] = '\0';
-		len = ft_strlen(tmp);
-		free(tmp);
-		tmp = 0;
-		len_tmp = (len_tmp == 0) ? len : len_tmp;
-		if (len != len_tmp)
-			return (0);
+		i++;
 	}
 	return (1);
 }
 
-int main(int ac, char **av)
+void	ft_init_map(t_reglage *reglage)
 {
-	cub_tab     *reglage;
-	char        *line;
-	int         fd;
+	/*reglage->textno = ft_strdup("");
+	reglage->textso = ft_strdup("");
+	reglage->textwe = ft_strdup("");
+	reglage->textea = ft_strdup("");
+	reglage->sprite = ft_strdup("");
+	reglage->map = ft_strdup("");
+	reglage->resx = 0;
+	reglage->resy = 0;
+	reglage->solr = 0;
+	reglage->solg = 0;
+	reglage->solb = 0;
+	reglage->cielr = 0;
+	reglage->cielg = 0;
+	reglage->cielb = 0;*/
+}
+
+int		main(int ac, char **av)
+{
+	t_reglage	reglage;
+	char		*line;
+	int			fd;
 	int			i;
 
 	i = 1;
 	fd = 1;
-	reglage->map = 0;
+	ft_init_map(&reglage);
 	if (!(fd = gest_error_arg(ac, av, fd)))
 		return (-1);
-	while(i > 0)
-		i = ft_read_line(fd, line, reglage);
+	while (i > 0)
+		i = ft_read_line(fd, line, &reglage);
 	close(fd);
-	if(verif_map(reglage->map))
+	ft_printf("%s", reglage.map);
+	/*if (verif_map(reglage.map))
 	{
-		ft_printf("%s", reglage->map);
-		ft_printf("x: %d y: %d", reglage->resx, reglage->resy);
+		ft_printf("%s", reglage.map);
+		ft_printf("x: %d y: %d", reglage.resx, reglage.resy);
 	}
 	else
-		ft_printf("error taille de la map");
+		ft_printf("error taille de la map");*/
 	return (0);
 }

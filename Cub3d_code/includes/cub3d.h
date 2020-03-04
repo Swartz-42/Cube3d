@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/03/02 14:24:24 by aducas            #+#    #+#             */
+/*   Updated: 2020/03/04 14:00:04 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -7,15 +19,15 @@
 # include <fcntl.h>
 # include "../../libft/include/libft.h"
 
-typedef	struct	jeu_tab
+typedef	struct	s_reglage
 {
-    int 	resx;
+	int		resx;
 	int		resy;
-    char	*textno;
+	char	*textno;
 	char	*textso;
 	char	*textwe;
 	char	*textea;
-	char	*textsprite;
+	char	*sprite;
 	int		solr;
 	int		solg;
 	int		solb;
@@ -24,12 +36,12 @@ typedef	struct	jeu_tab
 	int		cielb;
 	char	*map;
 
-}				cub_tab;
+}				t_reglage;
 
-typedef struct	m_tab
+typedef struct	s__map_tab
 {
 	char			*mapx;
 	struct m_tab	*next;
-}				map_tab;
+}				t_map_tab;
 
 #endif

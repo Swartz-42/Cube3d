@@ -3,105 +3,90 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lrobert <lrobert@student.le-101.fr>        +#+  +:+       +#+         #
+#    By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/02/19 14:01:52 by lrobert           #+#    #+#              #
-#    Updated: 2020/02/19 14:01:52 by lrobert          ###   ########lyon.fr    #
+#    Created: 2019/10/11 11:01:57 by abourbou          #+#    #+#              #
+#    Updated: 2020/03/04 14:58:32 by aducas           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY:	all clean fclean re
+
+#VARIABLE
+
+CC			=	gcc
+
+CFLAGS		=	-Wall -Werror -Wextra
 
 NAME		=	libft.a
 
-FLAGS		=	-Wall -Wextra -Werror
+SRC 		=	$(addprefix $(GNL_PATH)/,$(SRC_GNL)) \
+				$(addprefix $(LIBFT_PATH)/,$(SRC_LIBFT)) \
+				$(addprefix $(PRINTF_PATH)/,$(SRC_PRINTF))
 
-HEADER		=	include/libft.h
+LIBFT_PATH	=	lib_common
+SRC_LIBFT	= 	ft_atoi.c  ft_strdup.c ft_bzero.c \
+				ft_strjoin.c ft_calloc.c ft_strlcat.c ft_isalnum.c \
+	 			ft_memccpy.c ft_strlcpy.c ft_isalpha.c ft_memchr.c \
+   				ft_strlen.c ft_isascii.c ft_memcmp.c ft_strmapi.c \
+				ft_isdigit.c ft_memcpy.c ft_strncmp.c ft_isprint.c \
+	 			ft_memmove.c ft_strnstr.c ft_itoa.c ft_memset.c \
+				ft_strrchr.c  ft_putchar_fd.c ft_strtrim.c  ft_putendl_fd.c \
+				ft_substr.c  ft_putnbr_fd.c ft_tolower.c  ft_putstr_fd.c \
+				ft_toupper.c  ft_split.c ft_strchr.c  ft_strcmp.c \
+				ft_lstmap_bonus.c ft_lstnew_bonus.c ft_lstsize_bonus.c \
+				ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c \
+				ft_lstclear_bonus.c ft_lstdelone_bonus.c ft_lstiter_bonus.c \
+				ft_lstlast_bonus.c ft_lst_addnew.c \
+				is_in.c ft_usefull_free.c wrm.c
 
-SRC			=		src/ft_atoi.c				\
-					src/ft_bases.c				\
-					src/ft_bzero.c				\
-					src/ft_calloc.c				\
-					src/ft_comp.c				\
-					src/ft_cpy_line.c			\
-					src/ft_isalnum.c			\
-					src/ft_isalpha.c			\
-					src/ft_isascii.c			\
-					src/ft_isdigit.c			\
-					src/ft_isspace.c			\
-					src/ft_isprint.c			\
-					src/ft_itoa.c				\
-					src/ft_itoabase.c			\
-					src/ft_memccpy.c			\
-					src/ft_memchr.c				\
-					src/ft_memcmp.c				\
-					src/ft_memcpy.c				\
-					src/ft_memmove.c			\
-					src/ft_memset.c				\
-					src/ft_putchar_fd.c			\
-					src/ft_putendl_fd.c			\
-					src/ft_putnbr_fd.c			\
-					src/ft_putnbr_base.c		\
-					src/ft_putnchar_fd.c		\
-					src/ft_putnstr_fd.c			\
-					src/ft_putstr_fd.c			\
-					src/ft_split.c				\
-					src/ft_strchr.c				\
-					src/ft_strdup.c				\
-					src/ft_strjoin.c			\
-					src/ft_strlcat.c			\
-					src/ft_strlcpy.c			\
-					src/ft_strlen.c				\
-					src/ft_strmapi.c			\
-					src/ft_strncmp.c			\
-					src/ft_strnstr.c			\
-					src/ft_strrchr.c			\
-					src/ft_strtrim.c			\
-					src/ft_substr.c				\
-					src/ft_tolower.c			\
-					src/ft_toupper.c			\
-					src/ft_lstadd_back.c		\
-					src/ft_lstadd_front.c		\
-					src/ft_lstclear.c			\
-					src/ft_lstdelone.c			\
-					src/ft_lstiter.c			\
-					src/ft_lstlast.c			\
-					src/ft_lstmap.c				\
-					src/ft_lstnew.c				\
-					src/ft_lstsize.c			\
-					src/get_next_line.c			\
-					src/ft_display_addr.c		\
-					src/ft_display_char.c		\
-					src/ft_display_hex.c		\
-					src/ft_display_int.c		\
-					src/ft_display_percent.c	\
-					src/ft_display_str.c		\
-					src/ft_display_u_int.c		\
-					src/ft_display.c			\
-					src/ft_init.c				\
-					src/ft_parse.c				\
-					src/ft_precision.c			\
-					src/ft_printf.c				\
-					src/ft_wildcard.c
 
-OBJS			=	${SRC:.c=.o}
+GNL_PATH	=	get_next_line
+SRC_GNL		=	get_next_line.c			\
+				get_next_line_utils.c	\
 
-C-O			= gcc $(FLAGS)  -c $< -o $@
+PRINTF_PATH	=	ft_printf
+SRC_PRINTF	=	ft_display_addr.c		\
+				ft_display_char.c		\
+				ft_display_hex.c		\
+				ft_display_int.c		\
+				ft_display_percent.c	\
+				ft_display_str.c		\
+				ft_display_u_int.c		\
+				ft_display.c			\
+				ft_init.c				\
+				ft_parse.c				\
+				ft_precision.c			\
+				ft_printf.c				\
+				ft_wildcard.c			\
 
-all:	$(NAME)
+RM 			= 	rm -f
 
-$(NAME):	$(OBJS)
-	@ ar rcs $(NAME) $(OBJS)
-	
-%.o: %.c $(HEADER)
-	@ printf "\033[0;38;5;226mCompilation de \033[1m$< ..."
-	@ $(C-O)
-	@ printf "\r                                                                                                                                                    \r"
+INCL 		=	libft.h get_next_line.h ft_printf.h
 
-clean:
-	@ rm -rf $(OBJS)
+INCLUDE		=	$(addprefix include/,$(INCL))
 
-fclean:	clean
-	@ rm -rf $(NAME)
+OBJ			= 	$(SRC:.c=.o)
 
-re:	fclean all
+#RULES
+
+all 		:	$(OBJ) $(NAME)
+
+$(NAME) 	:	$(OBJ) $(INCLUDE)
+				ar r $(NAME) $(OBJ)
+				ranlib $(NAME)
+
+%.o 		:	%.c $(INCLUDE)
+				$(CC) -c -o $@ $< $(CFLAGS)
+
+clean 		:
+				@$(RM) $(OBJ)
+
+fclean 		: 	clean
+				@$(RM) $(NAME)
+
+re 			: 	fclean all
+
+norm 		:	$(SRC)
+				norminette $(SRC)  $(INCLUDE)
+
+.PHONY 		:	 clean fclean
