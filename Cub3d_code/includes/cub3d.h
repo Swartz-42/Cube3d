@@ -6,7 +6,7 @@
 /*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 14:24:24 by aducas            #+#    #+#             */
-/*   Updated: 2020/03/04 14:00:04 by aducas           ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 15:47:31 by aducas           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include "../../libft/include/libft.h"
+# include "../../libft/include/get_next_line.h"
+# include "../../libft/include/ft_printf.h"
 
 typedef	struct	s_reglage
 {

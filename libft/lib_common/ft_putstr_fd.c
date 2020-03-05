@@ -1,26 +1,29 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_putstr_fd.c                                   .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: abourbou <marvin@le-101.fr>                +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/10/09 16:10:54 by abourbou     #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 12:35:06 by abourbou    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/19 14:37:49 by lrobert           #+#    #+#             */
+/*   Updated: 2020/02/19 14:37:51 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "../include/libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int		ft_putstr_fd(char *s, int fd)
 {
 	int i;
 
 	i = 0;
-	if (!s)
-		return ;
-	while (s[i])
-		i++;
-	write(fd, s, i);
+	if (s)
+	{
+		while (s[i] != '\0')
+		{
+			write(fd, &s[i], 1);
+			i++;
+		}
+	}
+	return (i);
 }

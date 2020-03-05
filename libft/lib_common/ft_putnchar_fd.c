@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   ft_putnchar_fd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/19 14:37:04 by lrobert           #+#    #+#             */
-/*   Updated: 2020/02/19 14:37:06 by aducas           ###   ########lyon.fr   */
+/*   Created: 2020/02/19 14:37:36 by lrobert           #+#    #+#             */
+/*   Updated: 2020/02/19 14:37:36 by aducas           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-int	ft_putchar_fd(char c, int fd)
+void	ft_putnchar_fd(char c, int n, int fd)
 {
-	return (write(fd, &c, 1));
+	while (n > 0)
+	{
+		ft_putchar_fd(c, fd);
+		n--;
+	}
 }

@@ -14,11 +14,12 @@ CFLAGS+= -DSTRINGPUTX11
 all: $(NOM)
 
 $(NOM):	$(OBJ)
-	ar -r $(NOM) $(OBJ)
-	ranlib $(NOM)
+	@ ar -r $(NOM) $(OBJ)
+	@ ranlib $(NOM)
+	@ printf "\033[0;32marchive minilibx crée\n\033[0m"
 
 clean:
-	rm -f $(NOM) $(OBJ) *~
-	rm -f mlx_app
+	@ rm -f $(NOM) $(OBJ) *~
+	@ rm -f mlx_app
 
 re: clean all

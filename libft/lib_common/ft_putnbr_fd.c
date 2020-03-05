@@ -1,38 +1,32 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_putnbr_fd.c                                   .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: abourbou <marvin@le-101.fr>                +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/10/09 16:28:44 by abourbou     #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/09 16:43:33 by abourbou    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/19 14:37:27 by lrobert           #+#    #+#             */
+/*   Updated: 2020/02/21 16:23:41 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "../include/libft.h"
 
-void	ft_putnbr(unsigned int nbr, int fd)
+void	ft_putnbr_fd(long n, int fd)
 {
-	char	c;
+	long	a;
 
-	if (nbr < 10)
+	a = n;
+	if (a < 0)
 	{
-		c = nbr + '0';
-		write(fd, &c, 1);
-		return ;
+		ft_putchar_fd('-', fd);
+		a = -a;
 	}
-	ft_putnbr(nbr / 10, fd);
-	ft_putnbr(nbr % 10, fd);
-}
-
-void	ft_putnbr_fd(int n, int fd)
-{
-	unsigned	nbr;
-
-	if (n < 0)
-		write(fd, "-", 1);
-	nbr = (n < 0) ? (unsigned int)-n : (unsigned int)n;
-	ft_putnbr(nbr, fd);
+	if (a > 9)
+	{
+		ft_putnbr_fd(a / 10, fd);
+		ft_putnbr_fd(a % 10, fd);
+	}
+	else
+		ft_putchar_fd(a + '0', fd);
 }

@@ -6,7 +6,7 @@
 /*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 10:24:53 by abourbou          #+#    #+#             */
-/*   Updated: 2020/03/04 14:53:03 by aducas           ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 15:35:17 by aducas           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,13 @@ char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *s, char c);
 char			*ft_itoa(int n);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-void			ft_putchar_fd(char c, int fd);
-void			ft_putstr_fd(char *s, int fd);
+int				ft_putchar_fd(char c, int fd);
+void			ft_putnchar_fd(char c, int n, int fd);
+int				ft_putstr_fd(char *s, int fd);
+void			ft_putnstr_fd(char *str, int n, int fd);
 void			ft_putendl_fd(char *s, int fd);
-void			ft_putnbr_fd(int n, int fd);
+void			ft_putnbr_fd(long n, int fd);
+void			ft_putnbr_base(unsigned long nbr, char *base);
 int				is_in(char c, char *str);
 
 /*
@@ -90,5 +93,14 @@ int				ft_lst_addnew(t_list **first_elem, char *content);
 void			*wrmalloc(unsigned long size);
 int				wrfree(void *ptr);
 void			wrdestroy(void);
+
+/*
+**	PRINTF
+*/
+int				ft_base(unsigned long nbr, char *base);
+int				ft_base_ui(unsigned int nbr, char *base);
+int				ft_base_ld(long nbr, char *base);
+int				ft_comp(char text, char *charset);
+char			*ft_itoabase(long int n, char *charset);
 
 #endif

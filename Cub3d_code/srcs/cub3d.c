@@ -6,7 +6,7 @@
 /*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 12:26:29 by aducas            #+#    #+#             */
-/*   Updated: 2020/03/04 14:35:55 by aducas           ###   ########lyon.fr   */
+/*   Updated: 2020/03/05 19:05:38 by aducas           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int		verif_map(char *map)
 {
 	int	i;
 
+	i = 0;
 	while (map[i] != '\0')
 	{
 		i++;
@@ -148,7 +149,7 @@ int		verif_map(char *map)
 
 void	ft_init_map(t_reglage *reglage)
 {
-	/*reglage->textno = ft_strdup("");
+	reglage->textno = ft_strdup("");
 	reglage->textso = ft_strdup("");
 	reglage->textwe = ft_strdup("");
 	reglage->textea = ft_strdup("");
@@ -161,7 +162,7 @@ void	ft_init_map(t_reglage *reglage)
 	reglage->solb = 0;
 	reglage->cielr = 0;
 	reglage->cielg = 0;
-	reglage->cielb = 0;*/
+	reglage->cielb = 0;
 }
 
 int		main(int ac, char **av)
@@ -173,6 +174,7 @@ int		main(int ac, char **av)
 
 	i = 1;
 	fd = 1;
+	line = NULL;
 	ft_init_map(&reglage);
 	if (!(fd = gest_error_arg(ac, av, fd)))
 		return (-1);
@@ -180,12 +182,6 @@ int		main(int ac, char **av)
 		i = ft_read_line(fd, line, &reglage);
 	close(fd);
 	ft_printf("%s", reglage.map);
-	/*if (verif_map(reglage.map))
-	{
-		ft_printf("%s", reglage.map);
-		ft_printf("x: %d y: %d", reglage.resx, reglage.resy);
-	}
-	else
-		ft_printf("error taille de la map");*/
+	ft_printf("x: %d y: %d", reglage.resx, reglage.resy);
 	return (0);
 }
