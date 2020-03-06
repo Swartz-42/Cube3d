@@ -6,18 +6,19 @@
 /*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 12:26:29 by aducas            #+#    #+#             */
-/*   Updated: 2020/03/05 19:05:38 by aducas           ###   ########lyon.fr   */
+/*   Updated: 2020/03/06 14:17:25 by aducas           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
 //recuperais la map et les options avec les verifs
+// TODO Verif map
 
-int g_global = 0;
-
-int		gest_error_arg(int ac, char **av, int fd)
+int		gest_error_arg(int ac, char **av)
 {
+	int fd;
+
 	if (ac != 2 || !av[1])
 	{
 		ft_printf("ERROR\nErreur dans l'argument\n");
@@ -32,156 +33,94 @@ int		gest_error_arg(int ac, char **av, int fd)
 	return (fd);
 }
 
-void	resolution(char *line, t_reglage *reglage)
+void	ft_exit(t_window win)
 {
-	int i;
-
-	i = 0;
-	reglage->resx = ft_atoi(line + 1);
-	i = ft_strlen(line);
-	while (!ft_isdigit(line[i]))
-		i--;
-	while (ft_isdigit(line[i]))
-		i--;
-	reglage->resy = ft_atoi(line + i);
+	mlx_destroy_window(win.mlx_ptr, win.win_ptr);
+	exit(0);
 }
 
-void	ft_rgb_roof(t_reglage *reglage, char *line)
+void	ft_mouv(int key, t_perso perso)
 {
-	int	i;
-
-	i = 0;
-	while (!ft_isdigit(line[i]))
-		i++;
-	reglage->cielr = ft_atoi(line + i);
-	while (ft_isdigit(line[i]))
-		i++;
-	reglage->cielg = ft_atoi(line + ++i);
-	while (ft_isdigit(line[i]))
-		i++;
-	reglage->cielb = ft_atoi(line + ++i);
+	perso.vitx = 0;
+	perso.vity = 0;
+	if (key == W)
+		perso.vitx = 1;
+	else if (key == S)
+		perso.vitx = -1;
+	if (key == A)
+		perso.vity = -1;
+	else if (key == D)
+		perso.vity = 1;
+	ft_printf("vitx: %d vity: %d\n", perso.vitx, perso.vity);
 }
 
-void	ft_rgb_floor(t_reglage *reglage, char *line)
+void	ft_release_mouv(int key, t_perso perso)
 {
-	int	i;
-
-	i = 0;
-	while (!ft_isdigit(line[i]))
-		i++;
-	reglage->solr = ft_atoi(line + i);
-	while (ft_isdigit(line[i]))
-		i++;
-	reglage->solg = ft_atoi(line + ++i);
-	while (ft_isdigit(line[i]))
-		i++;
-	reglage->solb = ft_atoi(line + ++i);
+	if (key == W)
+		perso.vitx = 0;
+	if (key == A)
+		perso.vity = 0;
+	if (key == S)
+		perso.vitx = 0;
+	if (key == D)
+		perso.vity = 0;
+	ft_printf("vitx: %d vity: %d\n", perso.vitx, perso.vity);
 }
 
-void	ft_rgb(char *line, t_reglage *reglage)
+int		ft_parse_key(int key, t_jeu *jeu)
 {
-	if (line[0] == 'C')
-		ft_rgb_roof(reglage, line);
-	else
-		ft_rgb_floor(reglage, line);
+	if (key == ESC)
+		ft_exit(jeu->win);
+	else if ((key == W) || (key == A) || (key == S) || (key == D))
+		ft_mouv(key, jeu->perso);
+	return (0);
 }
 
-void	lazy_parsing(char *str, int *i)
+int		ft_release_key(int key, t_jeu *jeu)
 {
-	while (str[*i] && str[*i] != ' ')
-		*i = *i + 1;
-	while (str[*i] && str[*i] == ' ')
-		*i = *i + 1;
+	if ((key == W) || (key == A) || (key == S) || (key == D))
+		ft_release_mouv(key, jeu->perso);
+	return (0);
 }
 
-void	ft_parce(char *line, t_reglage *reglage)
+int		window(t_jeu jeu)
 {
-	if (line[0] == 'R')
-		resolution(line, reglage);
-	else if (line[0] == 'N' && line[1] == 'O')
-		reglage->textno = ft_strdup(line + 3);
-	else if (line[0] == 'S' && line[1] == 'O')
-		reglage->textso = ft_strdup(line + 3);
-	else if (line[0] == 'W' && line[1] == 'E')
-		reglage->textwe = ft_strdup(line + 3);
-	else if (line[0] == 'E' && line[1] == 'A')
-		reglage->textea = ft_strdup(line + 3);
-	else if (line[0] == 'S')
-		reglage->sprite = ft_strdup(line + 2);
-	else if (line[0] == 'F' || line[0] == 'C')
-		ft_rgb(line, reglage);
-	else
-		ft_printf("ERROR\nErreur dans un parametre\n");
-}
-
-int		ft_read_line(int fd, char *line, t_reglage *reglage)
-{
-	int ret;
-
-	ret = get_next_line(fd, &line);
-	if (ft_comp(line[0], "RNSWEFC"))
-		ft_parce(line, reglage);
-	else if (line[0] == '1' && line[ft_strlen(line) - 1] == '1')
-		reglage->map = ft_strjoin(reglage->map, ft_strjoin(line, "\n"));
-	else if ((line[0] != '1' || line[ft_strlen(line) - 1] != '1') &&
-			(read(fd, line, 0) >= 1))
+	if (!(jeu.win.mlx_ptr = mlx_init()))
 	{
-		ft_printf("ERROR\nerreur map\n");
-		return (-1);
+		ft_printf("ERROR\nErreur lors de l'initialisation de minilibx\n");
+		return (1);
 	}
-	line = 0;
-	if (ret == 0)
-		return (0);
-	return (1);
-}
-
-int		verif_map(char *map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i] != '\0')
+	jeu.win.title = ft_strdup("Cub3d.exe");
+	jeu.win.win_ptr = mlx_new_window(jeu.win.mlx_ptr,
+					jeu.reglage.x, jeu.reglage.y, jeu.win.title);
+	if (jeu.win.win_ptr == NULL)
 	{
-		i++;
+		ft_printf("ERROR\nErreur creation fenetre de jeu\n");
+		return (1);
 	}
-	return (1);
-}
-
-void	ft_init_map(t_reglage *reglage)
-{
-	reglage->textno = ft_strdup("");
-	reglage->textso = ft_strdup("");
-	reglage->textwe = ft_strdup("");
-	reglage->textea = ft_strdup("");
-	reglage->sprite = ft_strdup("");
-	reglage->map = ft_strdup("");
-	reglage->resx = 0;
-	reglage->resy = 0;
-	reglage->solr = 0;
-	reglage->solg = 0;
-	reglage->solb = 0;
-	reglage->cielr = 0;
-	reglage->cielg = 0;
-	reglage->cielb = 0;
+	mlx_hook(jeu.win.win_ptr, KeyPress, KeyPressMask, ft_parse_key, &jeu);
+	mlx_hook(jeu.win.win_ptr, KeyRelease, KeyReleaseMask, ft_release_key,
+				&jeu);
+	mlx_loop(jeu.win.mlx_ptr);
+	return (0);
 }
 
 int		main(int ac, char **av)
 {
-	t_reglage	reglage;
+	t_jeu		jeu;
 	char		*line;
 	int			fd;
 	int			i;
 
 	i = 1;
-	fd = 1;
 	line = NULL;
-	ft_init_map(&reglage);
-	if (!(fd = gest_error_arg(ac, av, fd)))
+	ft_init_reglage(&jeu.reglage);
+	if (!(fd = gest_error_arg(ac, av)))
 		return (-1);
 	while (i > 0)
-		i = ft_read_line(fd, line, &reglage);
+		i = ft_read_line(fd, line, &jeu.reglage);
 	close(fd);
-	ft_printf("%s", reglage.map);
-	ft_printf("x: %d y: %d", reglage.resx, reglage.resy);
+	if (window(jeu))
+		return (-1);
 	return (0);
 }

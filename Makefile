@@ -11,30 +11,35 @@
 #                                                         /                    #
 # **************************************************************************** #
 
-NAME        	=   Cub3d
+NAME        		=   Cub3d
 
-FLAGS       	=    -Wall -Wextra -Werror  
-
-HEADER      	=   Cub3d_code/includes/cub3d.h	\
-					minilibx/mlx.h
+FLAGS       		=   -Wall -Wextra -Werror
 
 PATH_INC			=	Cub3d_code/includes
 PATH_INC_MINILIBX	=	minilibx
 
-SRC         	=   Cub3d_code/srcs/cub3d.c
+INCL 				=	cub3d.h
 
-LIBFT_PATH		=	./libft
-LIBFT			=	./libft/libft.a
+INCLUDE				=	$(addprefix include/,$(INCL))
 
-MINI_LIBX_PATH	=	minilibx
-MINI_LIBX		=	./minilibx/libmlx.a
+PATH_SRC			=	Cub3d_code/srcs/
+SRC         		=   Cub3d_code/srcs/cub3d.c			\
+						Cub3d_code/srcs/ft_rgb.c		\
+						Cub3d_code/srcs/ft_reglage.c
+
+LIBFT_PATH			=	libft
+LIBFT				=	libft/libft.a
+
+MINI_LIBX_PATH		=	minilibx
+MINI_LIBX			=	minilibx/libmlx.a
 
 OBJSRC = $(SRC:.c=.o)
 
 all:	$(LIBFT) $(MINI_LIBX) $(NAME)
 
 $(NAME):	$(LIBFT) $(MINI_LIBX) $(OBJSRC)
-	@ gcc $(FLAGS) -o $(NAME) -I$(PATH_INC) -I$(PATH_INC_MINILIBX) $(MINI_LIBX) $(LIBFT) $(OBJSRC)
+	@ gcc $(FLAGS) -O2 -o $(NAME) -I$(PATH_INC) -I$(PATH_INC_MINILIBX) $(MINI_LIBX) $(LIBFT) -framework OpenGL -framework AppKit $(OBJSRC)
+	@ printf "\033[2K\033[0;32mCompilation terminée\n\033[1m"
 
 $(LIBFT):
 	@ make -C $(LIBFT_PATH)
@@ -42,12 +47,13 @@ $(LIBFT):
 $(MINI_LIBX):
 	@ make -C $(MINI_LIBX_PATH)
 
-%.o: %.c $(HEADER)
+%.o: $(PATH_SRC)%.c $(INCLUDE)
 	@ printf "\033[2K\033[0;38;5;226mCompilation de \033[1m$< ..."
-	@ gcc $(OBJSRC) -i $(HEADER) -c $< -o $@
+	@ gcc $(OBJSRC) -I$(PATH_INC) -c $< -o $@
 
 
 clean:
+	@ rm -rf $(PATH_SRC)*.o
 	@ make -C $(LIBFT_PATH) clean
 	@ make -C $(MINI_LIBX_PATH) clean
 
@@ -57,5 +63,3 @@ fclean:	clean
 	@ make -C $(LIBFT_PATH) fclean
 
 re:	fclean all
-
-.PHONY: all clean fclean re
