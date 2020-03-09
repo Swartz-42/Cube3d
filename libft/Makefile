@@ -6,7 +6,7 @@
 #    By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/11 11:01:57 by abourbou          #+#    #+#              #
-#    Updated: 2020/03/05 22:58:04 by aducas           ###   ########lyon.fr    #
+#    Updated: 2020/03/09 14:35:14 by aducas           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,7 @@ $(NAME) 	:	$(OBJ) $(INCLUDE)
 	printf "\r\033[2K\033[0;32marchive terminer\n\033[0m"
 
 %.o 		:	%.c $(INCLUDE)
-	@ printf "\033[2K\033[0;31mCompilation de \033[1m$< ..."
+	@ printf "\r\033[2K\033[0;31mCompilation de \033[1m$< ..."
 	@ $(CC) -c -o $@ $< $(CFLAGS)
 
 clean 		:

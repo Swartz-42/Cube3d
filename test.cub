@@ -1,5 +1,5 @@
 R 1980 1080
-NO ./Texture
+NO ./Texture/cat.xpm
 SO ./Texture
 WE ./Texture
 EA ./Texture

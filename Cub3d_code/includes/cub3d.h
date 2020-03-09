@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lrobert <lrobert@student.le-101.fr>        +#+  +:+       +#+        */
+/*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 14:24:24 by aducas            #+#    #+#             */
-/*   Updated: 2020/03/09 12:44:52 by lrobert          ###   ########lyon.fr   */
+/*   Updated: 2020/03/09 16:04:35 by aducas           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef	struct	s_config
 	int		g_ceiling;
 	int		b_ceiling;
 	char	*map;
-
 }				t_config;
 
 typedef	struct	s_window
@@ -54,7 +53,7 @@ typedef	struct	s_window
 	void	*mlx_ptr;
 	void	*win_ptr;
 	char	*title;
-
+	void	*img;
 }				t_window;
 
 typedef struct	s_perso

@@ -61,7 +61,7 @@ void	ft_parse3d(char *line, t_config *config)
 	else if (line[0] == 'F' || line[0] == 'C')
 		ft_rgb(line, config);
 	else
-		ft_printf("ERROR\nErreur dans un parametre\n");
+		ft_printf("ERROR\nInvalid parameter\n");
 }
 
 int		ft_read_line(int fd, char *line, t_config *config)
@@ -78,7 +78,7 @@ int		ft_read_line(int fd, char *line, t_config *config)
 	else if ((line[0] != '1' || line[ft_strlen(line) - 1] != '1') &&
 			(read(fd, line, 0) >= 1))
 	{
-		ft_printf("ERROR\nErreur map\n");
+		ft_printf("ERROR\nInvalid map\n");
 		return (-1);
 	}
 	line = 0;
