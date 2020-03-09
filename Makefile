@@ -25,7 +25,7 @@ INCLUDE				=	$(addprefix include/,$(INCL))
 PATH_SRC			=	Cub3d_code/srcs/
 SRC         		=   Cub3d_code/srcs/cub3d.c			\
 						Cub3d_code/srcs/ft_rgb.c		\
-						Cub3d_code/srcs/ft_reglage.c
+						Cub3d_code/srcs/ft_config.c
 
 LIBFT_PATH			=	libft
 LIBFT				=	libft/libft.a

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
+/*   By: lrobert <lrobert@student.le-101.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 14:24:24 by aducas            #+#    #+#             */
-/*   Updated: 2020/03/06 13:51:53 by aducas           ###   ########lyon.fr   */
+/*   Updated: 2020/03/09 12:44:52 by lrobert          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define W		13
 # define MAJ	257
 
-typedef	struct	s_reglage
+typedef	struct	s_config
 {
 	int		x;
 	int		y;
@@ -39,15 +39,15 @@ typedef	struct	s_reglage
 	char	*textwe;
 	char	*textea;
 	char	*sprite;
-	int		solr;
-	int		solg;
-	int		solb;
-	int		cielr;
-	int		cielg;
-	int		cielb;
+	int		r_floor;
+	int		g_floor;
+	int		b_floor;
+	int		r_ceiling;
+	int		g_ceiling;
+	int		b_ceiling;
 	char	*map;
 
-}				t_reglage;
+}				t_config;
 
 typedef	struct	s_window
 {
@@ -63,20 +63,20 @@ typedef struct	s_perso
 	int	vity;
 }				t_perso;
 
-typedef	struct	s_jeu
+typedef	struct	s_cub3d
 {
-	t_reglage	reglage;
+	t_config	config;
 	t_window	win;
 	t_perso		perso;
-}				t_jeu;
+}				t_cub3d;
 
-void			ft_rgb_roof(t_reglage *reglage, char *line);
-void			ft_rgb_floor(t_reglage *reglage, char *line);
-void			ft_rgb(char *line, t_reglage *reglage);
+void			ft_rgb_ceiling(t_config *config, char *line);
+void			ft_rgb_floor(t_config *config, char *line);
+void			ft_rgb(char *line, t_config *config);
 
-void			ft_init_reglage(t_reglage *reglage);
-void			resolution(char *line, t_reglage *reglage);
-int				ft_read_line(int fd, char *line, t_reglage *reglage);
-void			ft_parce(char *line, t_reglage *reglage);
+void			ft_init_config(t_config *config);
+void			resolution(char *line, t_config *config);
+int				ft_read_line(int fd, char *line, t_config *config);
+void			ft_parse3d(char *line, t_config *config);
 
 #endif
