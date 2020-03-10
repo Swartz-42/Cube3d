@@ -72,9 +72,7 @@ int		ft_read_line(int fd, char *line, t_config *config)
 	if (ft_comp(line[0], "RNSWEFC"))
 		ft_parse3d(line, config);
 	else if (line[0] == '1' && line[ft_strlen(line) - 1] == '1')
-	{
 		config->map = ft_strjoin(config->map, ft_strjoin(line, "\n"));
-	}
 	else if ((line[0] != '1' || line[ft_strlen(line) - 1] != '1') &&
 			(read(fd, line, 0) >= 1))
 	{

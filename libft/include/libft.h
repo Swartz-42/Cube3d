@@ -6,7 +6,7 @@
 /*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 10:24:53 by abourbou          #+#    #+#             */
-/*   Updated: 2020/03/09 15:39:45 by aducas           ###   ########lyon.fr   */
+/*   Updated: 2020/03/10 12:22:18 by aducas           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int				ft_isprint(int c);
 int				ft_toupper(int c);
 int				ft_tolower(int c);
 char			*ft_strchr(const char *s, int c);
+int				ft_strchrstr(char *s, char *c);
 char			*ft_strrchr(const char *s, int c);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t			ft_strlcpy(char *dest, const char *src, size_t size);

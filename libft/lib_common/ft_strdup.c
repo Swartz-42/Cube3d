@@ -1,15 +1,15 @@
 /* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   ft_strdup.c                                      .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: abourbou <abourbou@student.le-101.fr>      +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2019/10/09 09:23:25 by abourbou     #+#   ##    ##    #+#       */
-/*   Updated: 2020/02/12 11:38:55 by abourbou    ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/09 09:23:25 by abourbou          #+#    #+#             */
+/*   Updated: 2020/03/10 11:33:13 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/libft.h"
 
@@ -32,10 +32,6 @@ char	*ft_strdup(const char *s1)
 	}
 	return (strcpy);
 }
-
-/*
-**	Copie jusqu'a n caractères + un \0
-*/
 
 char	*ft_strndup(const char *s1, int n)
 {

@@ -23,9 +23,13 @@ INCL 				=	cub3d.h
 INCLUDE				=	$(addprefix include/,$(INCL))
 
 PATH_SRC			=	Cub3d_code/srcs/
-SRC         		=   Cub3d_code/srcs/cub3d.c			\
-						Cub3d_code/srcs/ft_rgb.c		\
-						Cub3d_code/srcs/ft_config.c
+SRC         		=   Cub3d_code/srcs/cub3d.c				\
+						Cub3d_code/srcs/display_window.c	\
+						Cub3d_code/srcs/ft_config.c			\
+						Cub3d_code/srcs/ft_rgb.c			\
+						Cub3d_code/srcs/gest_key.c			\
+						Cub3d_code/srcs/where_is_waldo.c
+						
 
 LIBFT_PATH			=	libft
 LIBFT				=	libft/libft.a
