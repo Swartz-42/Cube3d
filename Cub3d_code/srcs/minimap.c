@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/14 16:03:40 by aducas            #+#    #+#             */
+/*   Updated: 2020/12/14 16:05:10 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 static void	minimap_2(t_cub3d cub3d, int y, int x, int v, int w)
@@ -9,18 +21,21 @@ static void	minimap_2(t_cub3d cub3d, int y, int x, int v, int w)
 
 	i = 0;
 	a = 0;
-	color = rgb_int(0,255,0,0);
-	color2 = rgb_int(0,0,200,0);
+	color = rgb_int(0, 255, 0, 0);
+	color2 = rgb_int(0, 0, 200, 0);
 	while (a < (BLOCK_SIZE / 10))
 	{
 		while (i < (BLOCK_SIZE / 10))
 		{
 			if (cub3d.config.map_ok[y][x] == '1')
-				mlx_pixel_put(cub3d.win.mlx_ptr, cub3d.win.win_ptr, v + i++, w + a, color);
+				mlx_pixel_put(cub3d.win.mlx_ptr, cub3d.win.win_ptr, v + i++,
+								w + a, color);
 			else if (cub3d.config.map_ok[y][x] == '0')
-				mlx_pixel_put(cub3d.win.mlx_ptr, cub3d.win.win_ptr, v + i++, w + a, color2);
+				mlx_pixel_put(cub3d.win.mlx_ptr, cub3d.win.win_ptr, v + i++,
+								w + a, color2);
 			else if (ft_strchr("NSEW", cub3d.config.map_ok[y][x]))
-				mlx_pixel_put(cub3d.win.mlx_ptr, cub3d.win.win_ptr, v + i++, w + a, 0);
+				mlx_pixel_put(cub3d.win.mlx_ptr, cub3d.win.win_ptr, v + i++,
+								w + a, 0);
 			else
 				i++;
 		}
@@ -29,7 +44,7 @@ static void	minimap_2(t_cub3d cub3d, int y, int x, int v, int w)
 	}
 }
 
-void        minimap(t_cub3d cub3d)
+void		minimap(t_cub3d cub3d)
 {
 	int x;
 	int y;
@@ -40,9 +55,9 @@ void        minimap(t_cub3d cub3d)
 	y = 0;
 	w = 0;
 	v = 0;
-	while(cub3d.config.map_ok[y])
+	while (cub3d.config.map_ok[y])
 	{
-		while(cub3d.config.map_ok[y][x] != '\n')
+		while (cub3d.config.map_ok[y][x] != '\n')
 		{
 			minimap_2(cub3d, y, x++, v, w);
 			v += (BLOCK_SIZE / 10);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_rgb.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/14 16:01:50 by aducas            #+#    #+#             */
+/*   Updated: 2020/12/14 16:02:42 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 static int		skip(char *line, int i)
@@ -25,20 +37,21 @@ static int		ft_add_rgb(t_config *config, char *line)
 	if (r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0)
 	{
 		ft_printf("Error\nColors for ceiling or floor not in range [0,255]\n");
-		return(-1);
+		return (-1);
 	}
-	return(rgb_int(0, r, g, b));
+	return (rgb_int(0, r, g, b));
 }
 
-int     		rgb_int(unsigned char alpha, unsigned char r, unsigned char g, unsigned char b)
+int				rgb_int(unsigned char alpha, unsigned char r,
+						unsigned char g, unsigned char b)
 {
-    int rgb;
+	int rgb;
 
-    rgb = (int)alpha;
-    rgb = (rgb << 8) + (int)r;
-    rgb = (rgb << 8) + (int)g;
-    rgb = (rgb << 8) + (int)b;
-    return (rgb);
+	rgb = (int)alpha;
+	rgb = (rgb << 8) + (int)r;
+	rgb = (rgb << 8) + (int)g;
+	rgb = (rgb << 8) + (int)b;
+	return (rgb);
 }
 
 int				ft_rgb(char *line, t_config *config)
@@ -47,10 +60,10 @@ int				ft_rgb(char *line, t_config *config)
 
 	rgb = ft_add_rgb(config, line);
 	if (rgb == -1)
-		return(-1);
+		return (-1);
 	if (line[0] == 'C')
 		config->rgb_ceiling = rgb;
 	else
 		config->rgb_floor = rgb;
-	return(0);
+	return (0);
 }

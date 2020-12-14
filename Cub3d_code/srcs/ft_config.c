@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_config.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/14 16:00:51 by aducas            #+#    #+#             */
+/*   Updated: 2020/12/14 16:01:43 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
-void	ft_init_config(t_config *config)
+void		ft_init_config(t_config *config)
 {
 	config->textno = ft_strdup("");
 	config->textso = ft_strdup("");
@@ -46,9 +58,9 @@ static char	*path(char *line)
 	while (line[i] != '.' && i < ft_strlen(line))
 		i++;
 	if (i < ft_strlen(line))
-		return(ft_strdup(line +i));
+		return (ft_strdup(line + i));
 	else
-		return("ERROR\nBad path\n");
+		return ("ERROR\nBad path\n");
 }
 
 int			ft_parse3d(char *line, t_cub3d *cub3d)
@@ -86,10 +98,11 @@ int			ft_read_line(int fd, char *line, t_cub3d *cub3d)
 	if (ft_comp(line[0], "RNSWEFC"))
 	{
 		if (ft_parse3d(line, cub3d))
-			return(-1);
+			return (-1);
 	}
 	else if (ft_comp('1', line))
-		cub3d->config.map = ft_strjoin(cub3d->config.map, ft_strjoin(line, "\n"));
+		cub3d->config.map = ft_strjoin(cub3d->config.map,
+			ft_strjoin(line, "\n"));
 	else if (!(ft_comp('1', line)) && (read(fd, line, 0) > 0))
 	{
 		ft_printf("ERROR\nInvalid map\n");

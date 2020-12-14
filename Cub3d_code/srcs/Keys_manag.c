@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Keys_manag.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/14 16:02:53 by aducas            #+#    #+#             */
+/*   Updated: 2020/12/14 16:33:55 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 int		ft_exit(t_window *win)
@@ -35,13 +47,13 @@ int		ft_parse_key(int key, t_cub3d *cub3d)
 		cub3d->player.rightward = TRUE;
 	if (key == FD)
 	{
-		cub3d->config.POV -= 0.05;
-		(cub3d->config.POV < 0) ? cub3d->config.POV = 2 * M_PI : 0;
+		cub3d->config.pov -= 0.05;
+		(cub3d->config.pov < 0) ? cub3d->config.pov = 2 * M_PI : 0;
 	}
 	else if (key == FG)
 	{
-		cub3d->config.POV += 0.05;
-		(cub3d->config.POV > 2 * M_PI) ? cub3d->config.POV = 0 : 0;
+		cub3d->config.pov += 0.05;
+		(cub3d->config.pov > 2 * M_PI) ? cub3d->config.pov = 0 : 0;
 	}
 	mlx_clear_window(cub3d->win.mlx_ptr, cub3d->win.win_ptr);
 	display_game(cub3d);

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aducas <aducas@student.42lyon.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/14 15:57:20 by aducas            #+#    #+#             */
+/*   Updated: 2020/12/14 15:59:14 by aducas           ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
-int zero_verif_two(char **map_ok, int y, int x)
+int		zero_verif_two(char **map_ok, int y, int x)
 {
 	int i;
 
@@ -10,19 +22,19 @@ int zero_verif_two(char **map_ok, int y, int x)
 	if (map_ok[y][i] == ' ')
 		return (1);
 	i = y;
-    while (map_ok[i][x] == '0' && i != 0)
-    	i--;
-    if (map_ok[i][x] == ' ')
-        return (1);
+	while (map_ok[i][x] == '0' && i != 0)
+		i--;
+	if (map_ok[i][x] == ' ')
+		return (1);
 	i = y;
 	while (map_ok[i][x] == '0' && map_ok[i + 1])
-        i++;
-    if (map_ok[i][x] == ' ')
-        return (1);
+		i++;
+	if (map_ok[i][x] == ' ')
+		return (1);
 	return (0);
 }
 
-int zero_verif(char **map_ok)
+int		zero_verif(char **map_ok)
 {
 	int	x;
 	int	y;
@@ -35,7 +47,7 @@ int zero_verif(char **map_ok)
 		{
 			if (map_ok[y][x] == '0')
 			{
-                if (zero_verif_two(map_ok, y, x))
+				if (zero_verif_two(map_ok, y, x))
 					return (1);
 			}
 			x++;
@@ -46,9 +58,9 @@ int zero_verif(char **map_ok)
 	return (0);
 }
 
-int	check_first_last_lane(char **map_ok, int y, int x)
+int		check_first_last_lane(char **map_ok, int y, int x)
 {
-	while(map_ok[y])
+	while (map_ok[y])
 	{
 		if (map_ok[y][0] == '0' || map_ok[y][ft_strlen(map_ok[y])] == '0')
 			return (1);
@@ -71,10 +83,10 @@ int	check_first_last_lane(char **map_ok, int y, int x)
 	return (0);
 }
 
-int	verif_map(char **map_ok)
+int		verif_map(char **map_ok)
 {
-	if(check_first_last_lane(map_ok, 0, 0))
-		return(1);
+	if (check_first_last_lane(map_ok, 0, 0))
+		return (1);
 	if (zero_verif(map_ok))
 		return (1);
 	return (0);
@@ -99,6 +111,6 @@ char	**ft_parse_map(t_cub3d *cub3d)
 	else
 	{
 		ft_printf("ERROR\nNo map found\n");
-		return (0);	
+		return (0);
 	}
 }

@@ -26,9 +26,9 @@ COMP_ADD	=	-I$(PATH_INC) -I$(PATH_LIBMLX)
 RM			=	/bin/rm
 
 # Color Code and template code
-_YELLOW		=	\e[38;5;184m
-_GREEN		=	\e[38;5;46m
-_RESET		=	\e[0m
+_YELLOW		=	\033[38;5;184m
+_GREEN		=	\033[38;5;46m
+_RESET		=	\033[0m
 _INFO		=	[$(_YELLOW)INFO$(_RESET)]
 _SUCCESS	=	[$(_GREEN)SUCCESS$(_RESET)]
 
