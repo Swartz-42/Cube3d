@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aducas <aducas@student.le-101.fr>          +#+  +:+       +#+        */
+/*   By: aducas <aducas@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/02 12:26:29 by aducas            #+#    #+#             */
-/*   Updated: 2020/03/10 13:33:00 by aducas           ###   ########lyon.fr   */
+/*   Created: 2020/11/24 15:02:00 by aducas            #+#    #+#             */
+/*   Updated: 2020/12/14 15:34:26 by aducas           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-//recuperais la map et les options avec les verifs
-// TODO Verif map, affichage map, position player
-
-int		gest_error_arg(int ac, char **av)
+static int	gest_error_arg(int ac, char **av)
 {
 	int fd;
 
@@ -34,17 +31,25 @@ int		gest_error_arg(int ac, char **av)
 	return (fd);
 }
 
-char	**ft_parse_map(t_cub3d *cub3d)
+static void	set_pov(t_cub3d *cub3d)
 {
-	char	**map_ok;
+	int	y;
+	int	x;
 
-	map_ok = ft_split(cub3d->config.map, '\n');
-	if (find_player(map_ok, cub3d))
-		return (0);
-	return (map_ok);
+	y = (int)((cub3d->player.fposy + (BLOCK_SIZE / 2)) / BLOCK_SIZE);
+	x = (int)((cub3d->player.fposx - (BLOCK_SIZE / 2)) / BLOCK_SIZE);
+	printf("%d, %d, %c\n", y, x, cub3d->config.map_ok[y][x]);
+	if (cub3d->config.map_ok[y][x] == 'E')
+		cub3d->config.POV = 2 * M_PI;
+	else if (cub3d->config.map_ok[y][x] == 'N')
+		cub3d->config.POV = M_PI / 2;
+	else if (cub3d->config.map_ok[y][x] == 'W')
+		cub3d->config.POV = M_PI;
+	else
+		cub3d->config.POV = 3 * M_PI_2;
 }
 
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_cub3d		cub3d;
 	char		*line;
@@ -53,14 +58,31 @@ int		main(int ac, char **av)
 
 	i = 1;
 	line = NULL;
-	ft_init_config(&cub3d.config);
 	if (!(fd = gest_error_arg(ac, av)))
 		return (-1);
+	ft_init_config(&cub3d.config);
 	while (i > 0)
-		i = ft_read_line(fd, line, &cub3d.config);
+		i = ft_read_line(fd, line, &cub3d);
 	close(fd);
+	if (i == -1)
+		return (-1);
 	if (!(cub3d.config.map_ok = ft_parse_map(&cub3d)))
 		return (-1);
+	set_pov(&cub3d);
+	while (cub3d.config.map_ok[cub3d.config.y_max + 1])
+	{
+		while (cub3d.config.map_ok[cub3d.config.y_max][cub3d.config.x_max]
+				!= '\n')
+			printf("%c", cub3d.config.map_ok[cub3d.config.y_max]
+					[cub3d.config.x_max++]);
+		cub3d.config.x_max = 0;
+		cub3d.config.y_max++;
+		printf("\n");
+	}
+	while (cub3d.config.map_ok[cub3d.config.y_max][cub3d.config.x_max] != '\n')
+		printf("%c", cub3d.config.map_ok[cub3d.config.y_max]
+				[cub3d.config.x_max++]);
+	printf("\n");
 	if (window(cub3d))
 		return (-1);
 	return (0);
